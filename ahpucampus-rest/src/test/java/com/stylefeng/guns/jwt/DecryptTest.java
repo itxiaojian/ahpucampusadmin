@@ -16,7 +16,7 @@ public class DecryptTest {
 
     public static void main(String[] args) {
 
-        String salt = "fj03b0";
+        String salt = "1710sb";
 
         SimpleObject simpleObject = new SimpleObject();
         simpleObject.setUser("stylefeng");
