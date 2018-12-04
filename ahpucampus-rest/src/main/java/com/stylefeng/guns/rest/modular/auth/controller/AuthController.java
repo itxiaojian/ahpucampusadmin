@@ -6,6 +6,8 @@ import com.stylefeng.guns.rest.modular.auth.controller.dto.AuthRequest;
 import com.stylefeng.guns.rest.modular.auth.controller.dto.AuthResponse;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.rest.modular.auth.validator.IReqValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,12 @@ import javax.annotation.Resource;
 @RestController
 public class AuthController {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Resource(name = "simpleValidator")
+    @Resource(name = "dbValidator")
     private IReqValidator reqValidator;
 
     @RequestMapping(value = "${jwt.auth-path}")
@@ -37,6 +41,7 @@ public class AuthController {
             final String randomKey = jwtTokenUtil.getRandomKey();
             final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
             final String openId = authRequest.getOpenId();
+            logger.info("auth-path-token{},randomKey{}",token,randomKey);
             return ResponseEntity.ok(new AuthResponse(token, randomKey,openId));
         } else {
             throw new GunsException(BizExceptionEnum.AUTH_REQUEST_ERROR);

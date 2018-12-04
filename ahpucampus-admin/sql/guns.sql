@@ -370,6 +370,14 @@ CREATE TABLE `sys_user` (
   `status` int(11) DEFAULT NULL COMMENT '状态(1：启用  2：冻结  3：删除）',
   `createtime` datetime DEFAULT NULL COMMENT '创建时间',
   `version` int(11) DEFAULT NULL COMMENT '保留字段',
+  `nickName` varchar(64) DEFAULT NULL COMMENT '微信昵称',
+  `gender` int(2) DEFAULT NULL COMMENT '性别（1男性，2女性）',
+  `language` varchar(8) DEFAULT NULL COMMENT '语言',
+  `city` varchar(24) DEFAULT NULL COMMENT '城市',
+  `province` varchar(24) DEFAULT NULL COMMENT '省份',
+  `country` varchar(24) DEFAULT NULL COMMENT '国籍',
+  `avatarUrl` varchar(255) DEFAULT NULL COMMENT '微信头像',
+  `openId` varchar(64) DEFAULT NULL COMMENT 'openId',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 

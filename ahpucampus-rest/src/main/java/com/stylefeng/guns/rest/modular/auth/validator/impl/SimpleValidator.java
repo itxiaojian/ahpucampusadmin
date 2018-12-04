@@ -23,15 +23,9 @@ public class SimpleValidator implements IReqValidator {
     @Override
     public boolean validate(AuthRequest credence) {
 
-        String code = credence.getCode();
-
-        WechatOauth2Token weiXinOauth2Token = WechatUtils.getOauth2AccessToken(code);// 根据code获取 页面授权信息类
-        String openId ="";
-        if(weiXinOauth2Token != null){
-            openId = weiXinOauth2Token.getOpenId();
-        }
-        if(StringUtils.isNotEmpty(openId)){
-            credence.setOpenId(openId);
+        String userName = credence.getUserName();
+        String password = credence.getPassword();
+        if(USER_NAME.equals(userName)&&PASSWORD.equals(password)){
             return true;
         } else {
             return false;
