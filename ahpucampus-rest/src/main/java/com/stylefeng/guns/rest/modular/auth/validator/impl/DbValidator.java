@@ -9,9 +9,9 @@ import com.stylefeng.guns.rest.modular.ahpucampus.model.User;
 import com.stylefeng.guns.rest.modular.auth.controller.dto.AuthRequest;
 import com.stylefeng.guns.rest.modular.auth.validator.IReqValidator;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class DbValidator implements IReqValidator {
 
-    @Autowired
+    @Resource
     UserMapper userMapper;
 
     @Override
