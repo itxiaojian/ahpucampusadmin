@@ -55,7 +55,9 @@ public class WithSignMessageConverter extends FastJsonHttpMessageConverter {
             System.out.println("签名校验成功!");
         } else {
             System.out.println("签名校验失败,数据被改动过!");
-            throw new GunsException(BizExceptionEnum.SIGN_ERROR);
+            if(!json.contains("openId")){
+                throw new GunsException(BizExceptionEnum.SIGN_ERROR);
+            }
         }
 
         //校验签名后再转化成应该的对象

@@ -35,7 +35,8 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
+        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())
+                ||request.getServletPath().equals("/messagefile/upload")) {
             chain.doFilter(request, response);
             return;
         }

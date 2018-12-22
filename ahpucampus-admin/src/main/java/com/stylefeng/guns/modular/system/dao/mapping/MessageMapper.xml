@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.modular.system.dao.MessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Message">
+        <result column="id" property="id" />
+        <result column="openId" property="openId" />
+        <result column="message_type" property="messageType" />
+        <result column="content" property="content" />
+        <result column="isShow" property="isShow" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="detail_address" property="detailAddress" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="district" property="district" />
+        <result column="town" property="town" />
+        <result column="createtime" property="createtime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress, privence, city, district, town, createtime
+    </sql>
+
+</mapper>

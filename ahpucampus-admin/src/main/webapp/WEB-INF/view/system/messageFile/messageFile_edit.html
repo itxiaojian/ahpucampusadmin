@@ -1,0 +1,32 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <input type="hidden" id="id" value="${item.id}">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="" value="${item.id}" underline="true"/>
+                            <#input id="messageId" name="" value="${item.messageId}" underline="true"/>
+                            <#input id="fileName" name="文件原名" value="${item.fileName}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="uuName" name="文件随机名" value="${item.uuName}" underline="true"/>
+                            <#input id="url" name="文件在服务器的绝对完整路径" value="${item.url}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="MessageFileInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="MessageFileInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/messageFile/messageFile_info.js"></script>
+@}

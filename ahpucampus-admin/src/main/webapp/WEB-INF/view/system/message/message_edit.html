@@ -1,0 +1,40 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <input type="hidden" id="id" value="${item.id}">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="" value="${item.id}" underline="true"/>
+                            <#input id="openId" name="发帖者openId" value="${item.openId}" underline="true"/>
+                            <#input id="messageType" name="消息类型（0失物，1寻物...）" value="${item.messageType}" underline="true"/>
+                            <#input id="content" name="事件描述" value="${item.content}" underline="true"/>
+                            <#input id="isShow" name="逻辑删除标示（0,显示，1删除）" value="${item.isShow}" underline="true"/>
+                            <#input id="longitude" name="经度" value="${item.longitude}" underline="true"/>
+                            <#input id="latitude" name="纬度" value="${item.latitude}" />
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="detailAddress" name="详细地址" value="${item.detailAddress}" underline="true"/>
+                            <#input id="province" name="省份" value="${item.province}" underline="true"/>
+                            <#input id="city" name="市" value="${item.city}" underline="true"/>
+                            <#input id="district" name="区/县" value="${item.district}" underline="true"/>
+                            <#input id="town" name="镇" value="${item.town}" underline="true"/>
+                            <#input id="createtime" name="创建时间" value="${item.createtime}" />
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="MessageInfoDlg.editSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="MessageInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/message/message_info.js"></script>
+@}
