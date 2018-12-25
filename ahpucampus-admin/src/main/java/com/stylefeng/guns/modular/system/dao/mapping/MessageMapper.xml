@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.Message">
-        <result column="id" property="id" />
+        <id column="id" property="id" />
         <result column="openId" property="openId" />
         <result column="message_type" property="messageType" />
         <result column="content" property="content" />
@@ -17,11 +17,17 @@
         <result column="district" property="district" />
         <result column="town" property="town" />
         <result column="createtime" property="createtime" />
+        <result column="real_longitude" property="realLongitude" />
+        <result column="real_latitude" property="realLatitude" />
+        <result column="real_province" property="realProvince" />
+        <result column="real_city" property="realCity" />
+        <result column="real_district" property="realDistrict" />
+        <result column="real_detail_address" property="realDetailAddress" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress, privence, city, district, town, createtime
+        id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress, province, city, district, town, createtime, real_longitude AS realLongitude, real_latitude AS realLatitude, real_province AS realProvince, real_city AS realCity, real_district AS realDistrict, real_detail_address AS realDetailAddress
     </sql>
 
 </mapper>

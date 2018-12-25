@@ -1,12 +1,13 @@
 package com.stylefeng.guns.modular.system.model;
 
-import java.io.Serializable;
-
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -14,13 +15,14 @@ import java.io.Serializable;
  * </p>
  *
  * @author sliu123
- * @since 2018-12-10
+ * @since 2018-12-26
  */
 @TableName("bus_message")
 public class Message extends Model<Message> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
      * 发帖者openId
@@ -72,6 +74,36 @@ public class Message extends Model<Message> {
      * 创建时间
      */
     private Date createtime;
+    /**
+     * 真实经度
+     */
+    @TableField("real_longitude")
+    private String realLongitude;
+    /**
+     * 真实纬度
+     */
+    @TableField("real_latitude")
+    private String realLatitude;
+    /**
+     * 真实省
+     */
+    @TableField("real_province")
+    private String realProvince;
+    /**
+     * 真实市
+     */
+    @TableField("real_city")
+    private String realCity;
+    /**
+     * 真实区
+     */
+    @TableField("real_district")
+    private String realDistrict;
+    /**
+     * 真实详细地址
+     */
+    @TableField("real_detail_address")
+    private String realDetailAddress;
 
 
     public Integer getId() {
@@ -178,6 +210,54 @@ public class Message extends Model<Message> {
         this.createtime = createtime;
     }
 
+    public String getRealLongitude() {
+        return realLongitude;
+    }
+
+    public void setRealLongitude(String realLongitude) {
+        this.realLongitude = realLongitude;
+    }
+
+    public String getRealLatitude() {
+        return realLatitude;
+    }
+
+    public void setRealLatitude(String realLatitude) {
+        this.realLatitude = realLatitude;
+    }
+
+    public String getRealProvince() {
+        return realProvince;
+    }
+
+    public void setRealProvince(String realProvince) {
+        this.realProvince = realProvince;
+    }
+
+    public String getRealCity() {
+        return realCity;
+    }
+
+    public void setRealCity(String realCity) {
+        this.realCity = realCity;
+    }
+
+    public String getRealDistrict() {
+        return realDistrict;
+    }
+
+    public void setRealDistrict(String realDistrict) {
+        this.realDistrict = realDistrict;
+    }
+
+    public String getRealDetailAddress() {
+        return realDetailAddress;
+    }
+
+    public void setRealDetailAddress(String realDetailAddress) {
+        this.realDetailAddress = realDetailAddress;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -199,6 +279,12 @@ public class Message extends Model<Message> {
         ", district=" + district +
         ", town=" + town +
         ", createtime=" + createtime +
+        ", realLongitude=" + realLongitude +
+        ", realLatitude=" + realLatitude +
+        ", realProvince=" + realProvince +
+        ", realCity=" + realCity +
+        ", realDistrict=" + realDistrict +
+        ", realDetailAddress=" + realDetailAddress +
         "}";
     }
 }

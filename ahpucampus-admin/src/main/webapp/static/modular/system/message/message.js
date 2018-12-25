@@ -26,7 +26,13 @@ Message.initColumn = function () {
             {title: '市', field: 'city', visible: true, align: 'center', valign: 'middle'},
             {title: '区/县', field: 'district', visible: true, align: 'center', valign: 'middle'},
             {title: '镇', field: 'town', visible: true, align: 'center', valign: 'middle'},
-            {title: '创建时间', field: 'createtime', visible: true, align: 'center', valign: 'middle'}
+            {title: '创建时间', field: 'createtime', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实经度', field: 'realLongitude', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实纬度', field: 'realLatitude', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实省', field: 'realProvince', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实市', field: 'realCity', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实区', field: 'realDistrict', visible: true, align: 'center', valign: 'middle'},
+            {title: '真实详细地址', field: 'realDetailAddress', visible: true, align: 'center', valign: 'middle'}
     ];
 };
 

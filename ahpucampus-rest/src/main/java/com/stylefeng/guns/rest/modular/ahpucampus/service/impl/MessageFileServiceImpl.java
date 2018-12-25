@@ -48,6 +48,7 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
     public boolean fileUpload(HttpServletRequest request, MultipartFile[] files) throws FileNotFoundException {
 
         for (MultipartFile attachMentFile : files) {
+            MessageFile messageFile = new MessageFile();
             String filename = ""; //文件原名
             String realPath = null;  //文件路径
             String path = "";  //文件夹目录

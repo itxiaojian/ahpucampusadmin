@@ -72,6 +72,37 @@ public class Message extends Model<Message> {
      */
     private Date createtime;
 
+    /**
+     * 真实经度
+     */
+    @TableField("real_longitude")
+    private String realLongitude;
+    /**
+     * 真实纬度
+     */
+    @TableField("real_latitude")
+    private String realLatitude;
+    /**
+     * 真实省
+     */
+    @TableField("real_province")
+    private String realProvince;
+    /**
+     * 真实市
+     */
+    @TableField("real_city")
+    private String realCity;
+    /**
+     * 真实区
+     */
+    @TableField("real_district")
+    private String realDistrict;
+    /**
+     * 真实详细地址
+     */
+    @TableField("real_detail_address")
+    private String realDetailAddress;
+
 
     public Integer getId() {
         return id;
@@ -175,6 +206,55 @@ public class Message extends Model<Message> {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+
+    public String getRealLongitude() {
+        return realLongitude;
+    }
+
+    public void setRealLongitude(String realLongitude) {
+        this.realLongitude = realLongitude;
+    }
+
+    public String getRealLatitude() {
+        return realLatitude;
+    }
+
+    public void setRealLatitude(String realLatitude) {
+        this.realLatitude = realLatitude;
+    }
+
+    public String getRealProvince() {
+        return realProvince;
+    }
+
+    public void setRealProvince(String realProvince) {
+        this.realProvince = realProvince;
+    }
+
+    public String getRealCity() {
+        return realCity;
+    }
+
+    public void setRealCity(String realCity) {
+        this.realCity = realCity;
+    }
+
+    public String getRealDistrict() {
+        return realDistrict;
+    }
+
+    public void setRealDistrict(String realDistrict) {
+        this.realDistrict = realDistrict;
+    }
+
+    public String getRealDetailAddress() {
+        return realDetailAddress;
+    }
+
+    public void setRealDetailAddress(String realDetailAddress) {
+        this.realDetailAddress = realDetailAddress;
     }
 
     @Override
