@@ -14,4 +14,6 @@ import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
  */
 public interface MessageMapper extends BaseMapper<Message> {
 
+    int insert4primarykey(Message message);
+
 }

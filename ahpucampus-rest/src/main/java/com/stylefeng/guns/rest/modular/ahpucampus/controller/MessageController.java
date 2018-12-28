@@ -33,7 +33,7 @@ public class MessageController {
     @ResponseBody
     public ActionResponse<?> messageSave(@RequestBody Message message) {
         message.setCreatetime(new Date());
-        int messageId = iMessageService.save4primarykey(message);
+        int messageId = iMessageService.insert4primarykey(message);
 
         JSONObject responsedata = new JSONObject();
         responsedata.put("messageId",messageId);

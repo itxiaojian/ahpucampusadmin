@@ -48,32 +48,4 @@ public class MessageFileController {
         }
         return ResponseEntity.ok("请求成功!");
     }
-
-
-    @PostMapping("/fileUpload")
-    public String uploadMusicFile(HttpServletRequest request, @RequestParam("files") MultipartFile[] files){
-        String uploadPath="E:/pic/";//存放到本地路径（示例）
-        if(files!=null && files.length>=1) {
-            BufferedOutputStream bw = null;
-            try {
-                String fileName = files[0].getOriginalFilename();
-                //判断是否有文件
-                if(StringUtils.isNoneBlank(fileName)) {
-                    //输出到本地路径
-                    File outFile = new File(
-                            uploadPath + UUID.randomUUID().toString()+ FileUtil.getFileType(fileName));
-//                    FileUtils.copyInputStreamToFile(files[0].getInputStream(), outFile);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if(bw!=null) {bw.close();}
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return "success";
-    }
 }

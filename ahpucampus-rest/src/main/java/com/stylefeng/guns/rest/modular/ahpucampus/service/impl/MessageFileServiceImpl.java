@@ -5,10 +5,12 @@ import com.stylefeng.guns.core.util.FileUtil;
 import com.stylefeng.guns.rest.modular.ahpucampus.dao.MessageFileMapper;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.MessageFile;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,34 +48,30 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
 
     @Override
     public boolean fileUpload(HttpServletRequest request, MultipartFile[] files) throws FileNotFoundException {
+        String messageId = request.getParameter("pid");
 
         for (MultipartFile attachMentFile : files) {
             MessageFile messageFile = new MessageFile();
-            String filename = ""; //文件原名
+            messageFile.setMessageId(Integer.parseInt(messageId));
+            String filename = ""; //文件名
             String realPath = null;  //文件路径
-            String path = "";  //文件夹目录
 
-            path = ResourceUtils.getURL("classpath:").getPath();
+            String path = ResourceUtils.getURL("classpath:").getPath();
 
             String uploadUrl = new File(new File(new File(path).getParent()).getParent()).getParent() + File.separator + "gunsUploadFile";
 
 
             if (attachMentFile != null) {
-                filename = attachMentFile.getOriginalFilename();
                 File file = FileUtil.getFile(attachMentFile, uploadUrl, fileTypes);
                 realPath = file.toString();
+                filename = file.getName();
             }
-        /*invoice.setCreateNo(ShiroKit.getUser().getId());
-        invoice.setCreateName(ShiroKit.getUser().getName());
-        invoice.setCreateTime(new Date());
-        invoice.setFileName(filename);
-        invoice.setFileUrl(realPath);
-        invoiceMapper.insert(invoice);*/
 
+            messageFile.setUrl(realPath);
+            messageFile.setFileName(filename);
 
-            String xMurl = request.getRequestURL().toString();
-            String str = xMurl.substring(0, xMurl.lastIndexOf("/"));
-            String url = str + "/toSbDetail?sbbh=";
+            insert(messageFile);
+
 
         }
         return true;

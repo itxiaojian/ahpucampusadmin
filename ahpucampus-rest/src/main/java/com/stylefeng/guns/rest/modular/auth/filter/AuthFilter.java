@@ -35,9 +35,7 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String url = request.getServletPath();
-        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())
-                ||url.equals("/messagefile/upload")) {
+        if (request.getServletPath().equals("/" + jwtProperties.getAuthPath())) {
             chain.doFilter(request, response);
             return;
         }
@@ -64,5 +62,8 @@ public class AuthFilter extends OncePerRequestFilter {
             return;
         }
         chain.doFilter(request, response);
+        if(request.getServletPath().equals("/messagefile/upload")){
+            return;
+        }
     }
 }

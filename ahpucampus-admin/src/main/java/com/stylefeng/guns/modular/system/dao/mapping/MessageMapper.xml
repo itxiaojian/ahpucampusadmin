@@ -30,4 +30,17 @@
         id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress, province, city, district, town, createtime, real_longitude AS realLongitude, real_latitude AS realLatitude, real_province AS realProvince, real_city AS realCity, real_district AS realDistrict, real_detail_address AS realDetailAddress
     </sql>
 
+
+
+    <insert id="insert4primarykey" parameterType="com.stylefeng.guns.modular.system.model.Message" keyProperty="id">
+        <selectKey keyProperty='id' resultType='int' order='AFTER'  >
+            select LAST_INSERT_ID();
+        </selectKey>
+        insert into bus_message (openId,message_type,content,isShow,longitude,latitude,detail_address,province,city,
+        district,town,createtime)
+        values (#{openId,jdbcType=VARCHAR},#{messageType,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{isShow,jdbcType=VARCHAR},
+        #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR},#{detailAddress,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},
+        #{city,jdbcType=VARCHAR},#{district,jdbcType=VARCHAR},#{town,jdbcType=VARCHAR},#{createtime,jdbcType=DATE})
+    </insert>
+
 </mapper>

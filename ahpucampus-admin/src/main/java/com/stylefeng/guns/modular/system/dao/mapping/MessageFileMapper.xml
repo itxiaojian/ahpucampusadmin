@@ -9,11 +9,12 @@
         <result column="fileName" property="fileName" />
         <result column="uuName" property="uuName" />
         <result column="url" property="url" />
+        <result column="preview_url" property="previewUrl" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, messageId, fileName, uuName, url
+        id, messageId, fileName, uuName, url,preview_url as previewUrl
     </sql>
 
 </mapper>

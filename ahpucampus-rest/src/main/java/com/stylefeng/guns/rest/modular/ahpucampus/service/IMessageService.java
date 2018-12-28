@@ -13,6 +13,6 @@ import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
  */
 public interface IMessageService extends IService<Message> {
 
-    int save4primarykey(Message message);
+    int insert4primarykey(Message message);
 
 }
