@@ -104,6 +104,51 @@ public class Message extends Model<Message> {
     private String realDetailAddress;
 
 
+    /**
+     * 消息列表楼主头像
+     */
+    @TableField(exist = false)
+    private  String headimgurl;
+
+    /**
+     * 楼主账号昵称
+     * @return
+     */
+
+    @TableField(exist = false)
+    private String nickName;
+
+    /**
+     * 楼主联系手机
+     * @return
+     */
+    @TableField(exist = false)
+    private String telephone;
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getHeadimgurl() {
+        return headimgurl;
+    }
+
+    public void setHeadimgurl(String headimgurl) {
+        this.headimgurl = headimgurl;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public Integer getId() {
         return id;
     }
