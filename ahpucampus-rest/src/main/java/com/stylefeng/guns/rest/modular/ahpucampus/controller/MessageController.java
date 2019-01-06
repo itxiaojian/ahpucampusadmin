@@ -8,7 +8,9 @@ import com.stylefeng.guns.core.util.DateUtil;
 import com.stylefeng.guns.rest.common.persistence.model.RequestParamDto;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.ActionResponse;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.MessageFile;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.User;
+import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageService;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IUserService;
 import org.apache.commons.collections.CollectionUtils;
@@ -37,6 +39,9 @@ public class MessageController {
 
     @Autowired
     private IMessageService iMessageService;
+
+    @Autowired
+    private IMessageFileService messageFileService;
 
     @Autowired
     private IUserService userService;
@@ -85,6 +90,17 @@ public class MessageController {
                     message.setNickName(user.getNickName());
                 }
 
+                int messageId = message.getId();
+                Wrapper<MessageFile>messageFileWrapper = new EntityWrapper<>();
+                messageFileWrapper.eq("messageId",messageId);
+
+                List<MessageFile> messageFilesList = messageFileService.selectList(messageFileWrapper);
+
+                if(CollectionUtils.isNotEmpty(messageFilesList)){
+                    MessageFile previewFile = messageFilesList.get(0);
+                    message.setPhoto(previewFile.getId());
+                }
+
             }
         }
 
@@ -116,6 +132,16 @@ public class MessageController {
                 message.setHeadimgurl(user.getAvatarUrl());
                 message.setNickName(user.getNickName());
                 message.setTelephone(user.getPhone());
+            }
+
+            Wrapper<MessageFile>messageFileWrapper = new EntityWrapper<>();
+            messageFileWrapper.eq("messageId",messageId);
+
+            List<MessageFile> messageFilesList = messageFileService.selectList(messageFileWrapper);
+
+            if(CollectionUtils.isNotEmpty(messageFilesList)){
+                MessageFile previewFile = messageFilesList.get(0);
+                message.setPhoto(previewFile.getId());
             }
         }
 

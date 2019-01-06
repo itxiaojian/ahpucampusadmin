@@ -125,6 +125,20 @@ public class Message extends Model<Message> {
     @TableField(exist = false)
     private String telephone;
 
+    /**
+     * 信息列表预览图片id
+     */
+    @TableField(exist = false)
+    private int photo;
+
+    public int getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(int photo) {
+        this.photo = photo;
+    }
+
     public String getTelephone() {
         return telephone;
     }

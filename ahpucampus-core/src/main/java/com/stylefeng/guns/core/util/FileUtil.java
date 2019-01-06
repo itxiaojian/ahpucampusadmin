@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
@@ -111,6 +114,74 @@ public class FileUtil {
         }
         return file;
     }
+
+
+    public static File scale(File file,String fileUrl) {
+        BufferedImage src = null; // java.awt.image 包下的
+        Image image = null; // 抽象类 Image 是表示图形图像的所有类的超类。 java.awt 包下的
+        BufferedImage tag = null;
+        String type="png";
+        String fileName= file.getName();
+        System.out.println("=========2222"+fileName);
+        String path = file.getPath();
+        String suffix = fileName.substring(fileName.lastIndexOf('.'));
+        String prefix = System.currentTimeMillis() + "";
+        String newfileName = prefix + suffix;
+        System.out.println("-----------------12------------->"+path);
+        File folder = new File(fileUrl);
+
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+
+        File newFile = new File(fileUrl+"\\" +newfileName);
+
+
+        try {
+            src = ImageIO.read(new File(path)); // 读入文件
+            if (src != null) {
+                int width = src.getWidth(); // 得到源图宽
+                int height = src.getHeight(); // 得到源图长
+                width = 120; // 设置新图片的宽度
+                height = 55; // 设置新图片的长度
+                image = src.getScaledInstance(width, height,Image.SCALE_DEFAULT);
+                tag = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);
+                Graphics g = tag.getGraphics();
+                g.drawImage(image, 0, 0, null); // 绘制缩小后的图
+                g.dispose();
+                ImageIO.write(tag, type, newFile);// 输出到文件流
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }  finally {
+            if (src != null) {
+                src.flush();
+                image.flush();
+                tag.flush();
+            }
+        }
+        return newFile;
+    }
+
+    public static void getFile( HttpServletResponse response,String path){
+        try {
+            FileInputStream in = new FileInputStream(new File(path));
+            OutputStream out = response.getOutputStream();
+            byte[] b = new byte[512];
+
+            while ((in.read(b)) != -1) {
+                out.write(b);
+            }
+
+            out.flush();
+            in.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public static void downLoadFile(HttpServletRequest request, HttpServletResponse response, String fileUrl, String fileName){
         try {
