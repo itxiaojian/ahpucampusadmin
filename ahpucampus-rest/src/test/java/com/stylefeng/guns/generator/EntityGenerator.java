@@ -25,7 +25,7 @@ public class EntityGenerator {
 
     @Test
     public void entityGenerator() {
-        AutoGenerator mpg = new AutoGenerator();
+        /*AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
@@ -87,6 +87,6 @@ public class EntityGenerator {
         mpg.execute();
 
         // 打印注入设置
-        System.err.println(mpg.getCfg().getMap().get("abc"));
+        System.err.println(mpg.getCfg().getMap().get("abc"));*/
     }
 }
