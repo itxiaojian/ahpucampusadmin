@@ -3,6 +3,7 @@ package com.stylefeng.guns.modular.system.model;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
@@ -33,6 +34,13 @@ public class MessageFile extends Model<MessageFile> {
      * 文件在服务器的绝对完整路径
      */
     private String url;
+
+    /**
+     * 预览路径
+     * @return
+     */
+    @TableField("preview_url")
+    private String previewUrl;
 
 
     public Integer getId() {
@@ -80,14 +88,23 @@ public class MessageFile extends Model<MessageFile> {
         return this.id;
     }
 
+    public String getPreviewUrl() {
+        return previewUrl;
+    }
+
+    public void setPreviewUrl(String previewUrl) {
+        this.previewUrl = previewUrl;
+    }
+
     @Override
     public String toString() {
         return "MessageFile{" +
-        "id=" + id +
-        ", messageId=" + messageId +
-        ", fileName=" + fileName +
-        ", uuName=" + uuName +
-        ", url=" + url +
-        "}";
+                "id=" + id +
+                ", messageId=" + messageId +
+                ", fileName='" + fileName + '\'' +
+                ", uuName='" + uuName + '\'' +
+                ", url='" + url + '\'' +
+                ", previewUrl='" + previewUrl + '\'' +
+                '}';
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 /**
@@ -22,6 +23,9 @@ import java.io.FileNotFoundException;
 public interface IMessageFileService extends IService<MessageFile> {
 
     boolean fileUpload(HttpServletRequest request, MultipartFile[] files) throws FileNotFoundException;
+
+
+    void getFile(HttpServletRequest request, HttpServletResponse response,String filetype,String fileId) throws IOException;
 
 
 }

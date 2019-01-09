@@ -57,7 +57,13 @@ MessageInfoDlg.collectData = function() {
     .set('city')
     .set('district')
     .set('town')
-    .set('createtime');
+    .set('createtime')
+    .set('realLongitude')
+    .set('realLatitude')
+    .set('realProvince')
+    .set('realCity')
+    .set('realDistrict')
+    .set('realDetailAddress');
 }
 
 /**

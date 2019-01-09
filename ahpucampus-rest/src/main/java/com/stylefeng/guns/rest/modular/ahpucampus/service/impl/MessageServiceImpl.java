@@ -24,7 +24,8 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 
 
     @Override
-    public int save4primarykey(Message message) {
-        return messageMapper.insert(message);
+    public int insert4primarykey(Message message) {
+        messageMapper.insert4primarykey(message);
+        return message.getId();
     }
 }

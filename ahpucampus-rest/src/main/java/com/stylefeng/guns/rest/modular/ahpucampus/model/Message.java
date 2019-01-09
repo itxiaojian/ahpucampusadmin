@@ -72,6 +72,96 @@ public class Message extends Model<Message> {
      */
     private Date createtime;
 
+    /**
+     * 真实经度
+     */
+    @TableField("real_longitude")
+    private String realLongitude;
+    /**
+     * 真实纬度
+     */
+    @TableField("real_latitude")
+    private String realLatitude;
+    /**
+     * 真实省
+     */
+    @TableField("real_province")
+    private String realProvince;
+    /**
+     * 真实市
+     */
+    @TableField("real_city")
+    private String realCity;
+    /**
+     * 真实区
+     */
+    @TableField("real_district")
+    private String realDistrict;
+    /**
+     * 真实详细地址
+     */
+    @TableField("real_detail_address")
+    private String realDetailAddress;
+
+
+    /**
+     * 消息列表楼主头像
+     */
+    @TableField(exist = false)
+    private  String headimgurl;
+
+    /**
+     * 楼主账号昵称
+     * @return
+     */
+
+    @TableField(exist = false)
+    private String nickName;
+
+    /**
+     * 楼主联系手机
+     * @return
+     */
+    @TableField(exist = false)
+    private String telephone;
+
+    /**
+     * 信息列表预览图片id
+     */
+    @TableField(exist = false)
+    private int photo;
+
+    public int getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(int photo) {
+        this.photo = photo;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getHeadimgurl() {
+        return headimgurl;
+    }
+
+    public void setHeadimgurl(String headimgurl) {
+        this.headimgurl = headimgurl;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public Integer getId() {
         return id;
@@ -175,6 +265,55 @@ public class Message extends Model<Message> {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+
+    public String getRealLongitude() {
+        return realLongitude;
+    }
+
+    public void setRealLongitude(String realLongitude) {
+        this.realLongitude = realLongitude;
+    }
+
+    public String getRealLatitude() {
+        return realLatitude;
+    }
+
+    public void setRealLatitude(String realLatitude) {
+        this.realLatitude = realLatitude;
+    }
+
+    public String getRealProvince() {
+        return realProvince;
+    }
+
+    public void setRealProvince(String realProvince) {
+        this.realProvince = realProvince;
+    }
+
+    public String getRealCity() {
+        return realCity;
+    }
+
+    public void setRealCity(String realCity) {
+        this.realCity = realCity;
+    }
+
+    public String getRealDistrict() {
+        return realDistrict;
+    }
+
+    public void setRealDistrict(String realDistrict) {
+        this.realDistrict = realDistrict;
+    }
+
+    public String getRealDetailAddress() {
+        return realDetailAddress;
+    }
+
+    public void setRealDetailAddress(String realDetailAddress) {
+        this.realDetailAddress = realDetailAddress;
     }
 
     @Override

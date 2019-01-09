@@ -13,16 +13,22 @@
                             <#input id="content" name="事件描述" value="${item.content}" underline="true"/>
                             <#input id="isShow" name="逻辑删除标示（0,显示，1删除）" value="${item.isShow}" underline="true"/>
                             <#input id="longitude" name="经度" value="${item.longitude}" underline="true"/>
-                            <#input id="latitude" name="纬度" value="${item.latitude}" />
+                            <#input id="latitude" name="纬度" value="${item.latitude}" underline="true"/>
+                            <#input id="detailAddress" name="详细地址" value="${item.detailAddress}" underline="true"/>
+                            <#input id="province" name="省份" value="${item.province}" underline="true"/>
+                            <#input id="city" name="市" value="${item.city}" />
                 </div>
 
                 <div class="col-sm-6">
-                            <#input id="detailAddress" name="详细地址" value="${item.detailAddress}" underline="true"/>
-                            <#input id="province" name="省份" value="${item.province}" underline="true"/>
-                            <#input id="city" name="市" value="${item.city}" underline="true"/>
                             <#input id="district" name="区/县" value="${item.district}" underline="true"/>
                             <#input id="town" name="镇" value="${item.town}" underline="true"/>
-                            <#input id="createtime" name="创建时间" value="${item.createtime}" />
+                            <#input id="createtime" name="创建时间" value="${item.createtime}" underline="true"/>
+                            <#input id="realLongitude" name="真实经度" value="${item.realLongitude}" underline="true"/>
+                            <#input id="realLatitude" name="真实纬度" value="${item.realLatitude}" underline="true"/>
+                            <#input id="realProvince" name="真实省" value="${item.realProvince}" underline="true"/>
+                            <#input id="realCity" name="真实市" value="${item.realCity}" underline="true"/>
+                            <#input id="realDistrict" name="真实区" value="${item.realDistrict}" underline="true"/>
+                            <#input id="realDetailAddress" name="真实详细地址" value="${item.realDetailAddress}" />
                 </div>
             </div>
 
