@@ -101,9 +101,13 @@ public class WechatUtils {
 		            httpUrlConn.disconnect();  
 		            jsonObject = (JSONObject) JSON.parse(buffer.toString());
 		        } catch (ConnectException ce) {  
-		        	logger.error("Weixin server connection timed out.");  
-		        } catch (Exception e) {  
-		        	logger.error("https request error:{}", e);  
+		        	logger.error("Weixin server connection timed out{}",ce);
+					jsonObject.put("errmsg","Weixin server connection timed out");
+					jsonObject.put("errcode","500");
+		        } catch (Exception e) {
+		        	logger.error("https request error:{}", e);
+					jsonObject.put("errmsg","Weixin server error");
+					jsonObject.put("errcode","500");
 		        }  
 		        return jsonObject;  
 		    }  
