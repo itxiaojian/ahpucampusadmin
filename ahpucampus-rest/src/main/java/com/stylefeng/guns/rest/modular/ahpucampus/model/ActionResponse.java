@@ -76,4 +76,14 @@ public class ActionResponse<T> {
     public T getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "ActionResponse{" +
+                "success=" + success +
+                ", code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

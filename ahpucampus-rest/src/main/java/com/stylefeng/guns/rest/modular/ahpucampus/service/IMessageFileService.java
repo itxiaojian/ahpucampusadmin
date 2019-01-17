@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 public interface IMessageFileService extends IService<MessageFile> {
 
-    boolean fileUpload(HttpServletRequest request, MultipartFile[] files) throws FileNotFoundException;
+    boolean fileUpload(HttpServletRequest request, MultipartFile[] files);
 
 
     void getFile(HttpServletRequest request, HttpServletResponse response,String filetype,String fileId) throws IOException;

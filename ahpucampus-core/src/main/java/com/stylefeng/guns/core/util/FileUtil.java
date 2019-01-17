@@ -4,7 +4,9 @@ import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.exception.GunsExceptionEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
 
 public class FileUtil {
@@ -77,64 +81,105 @@ public class FileUtil {
         return dir.delete();
     }
 
+    /**
+     * 获取根目录
+     * @param subdirectory
+     * @return
+     */
+    public static String  getPath(String subdirectory){
+        //获取跟目录---与jar包同级目录的upload目录下指定的子目录subdirectory
+        File upload = null;
+        try {
+            //本地测试时获取到的是"工程目录/target/upload/subdirectory
+            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+            if(!path.exists()) path = new File("");
+            upload = new File(path.getAbsolutePath(),subdirectory);
+            if(!upload.exists()) upload.mkdirs();//如果不存在则创建目录
+            String realPath = upload + File.separator;
+            return realPath;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("获取服务器路径发生错误！");
+        }
+    }
 
-    public static File getFile(MultipartFile imgFile, String brandName, List<String> fileTypes) {
-        String fileName = imgFile.getOriginalFilename();
+    /**
+     * 获取随机文件名
+     * @return
+     */
+
+    private static String getUUFileName(){
+        return new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date())
+                + (new Random().nextInt(9000) % (9000 - 1000 + 1) + 1000);
+    }
+
+    /**
+     * 流上传文件方法
+     * @param file
+     * @param subdirectory
+     * @param fileTypes
+     * @return
+     */
+
+
+    public static File uploadFile(MultipartFile file, String subdirectory, List<String> fileTypes) throws IOException {
+        String fileName = file.getOriginalFilename();
         // 获取上传文件类型的扩展名,先得到.的位置，再截取从.的下一个位置到文件的最后，最后得到扩展名
-        String ext = fileName.substring(fileName.lastIndexOf(".") + 1,fileName.length());
+        String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
         // 对扩展名进行小写转换
         ext = ext.toLowerCase();
-        File file = null;
+
         if (fileTypes.contains(ext)) { // 如果扩展名属于允许上传的类型，则创建文件
-            file = creatFolder(brandName, fileName);
-            try {
-                imgFile.transferTo(file); // 保存上传的文件
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            //上传文件路径
+            String path = getPath(subdirectory);
+            log.info("上传文件路径==={}",path);
+            //重新修改文件名防止重名
+            String filename = getUUFileName() + "." + ext;
+            File filepath = new File(path, filename);
+            //判断路径是否存在，没有就创建一个
+            if (!filepath.getParentFile().exists()) {
+                filepath.getParentFile().mkdirs();
             }
+            //将上传文件保存到一个目标文档中
+            File newFile = new File(path + File.separator + filename);
+            file.transferTo(newFile);
+            return newFile;
+
         }else{
+
             throw new GunsException(GunsExceptionEnum.FILE_TYPE_ERROR);
+
         }
-        return file;
+
     }
 
-    public static File creatFolder(String brandName, String fileName) {
-        File file = null;
-        File firstFolder = new File(brandName);
-        String suffix = fileName.substring(fileName.lastIndexOf('.'));
-        String prefix = System.currentTimeMillis() + "";
-        String newfileName = prefix + suffix;
-        if (firstFolder.exists()) { // 如果一级文件夹存在，则检测二级文件夹
-            file = new File(brandName + "\\" + newfileName);
-        } else { // 如果一级不存在，则创建一级文件夹
-            firstFolder.mkdir();
-            file = new File(brandName + "\\" + newfileName);
-        }
-        return file;
-    }
+    /**
+     * 裁剪图片上传
+     * @param file
+     * @param subdirectory
+     * @return
+     */
 
-
-    public static File scale(File file,String fileUrl) {
+    public static File scale(File file,String subdirectory) throws IOException {
+        //上传文件路径
+        String fileUrl = getPath(subdirectory);
         BufferedImage src = null; // java.awt.image 包下的
         Image image = null; // 抽象类 Image 是表示图形图像的所有类的超类。 java.awt 包下的
         BufferedImage tag = null;
         String type="png";
         String fileName= file.getName();
-        System.out.println("=========2222"+fileName);
+        log.info("=========2222"+fileName);
         String path = file.getPath();
         String suffix = fileName.substring(fileName.lastIndexOf('.'));
-        String prefix = System.currentTimeMillis() + "";
-        String newfileName = prefix + suffix;
-        System.out.println("-----------------12------------->"+path);
+        String newfileName = getUUFileName() + suffix;
+        log.info("-----------------12------------->"+path);
         File folder = new File(fileUrl);
 
         if(!folder.exists()){
-            folder.mkdir();
+            folder.mkdirs();
         }
 
-        File newFile = new File(fileUrl+"\\" +newfileName);
+        File newFile = new File(fileUrl + File.separator +newfileName);
 
 
         try {
@@ -151,8 +196,6 @@ public class FileUtil {
                 g.dispose();
                 ImageIO.write(tag, type, newFile);// 输出到文件流
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }  finally {
             if (src != null) {
                 src.flush();
@@ -161,6 +204,73 @@ public class FileUtil {
             }
         }
         return newFile;
+    }
+
+
+
+
+    /**
+     * 以base64编码格式上传，将照片转成字节流
+     * @param imageFile
+     * @param subdirectory
+     * @return
+     */
+    public static Map<String,String> getImg(String imageFile,String subdirectory){
+        // 通过base64来转化图片
+        String type = imageFile.substring(imageFile.indexOf("/")+1,imageFile.indexOf(";"));
+        if (type.equals("png")){
+            imageFile = imageFile.replaceAll("data:image/png;base64,", "");
+        }
+        if (type.equals("jpeg")){
+            imageFile = imageFile.replaceAll("data:image/jpeg;base64,", "");
+        }
+        BASE64Decoder decoder = new BASE64Decoder();
+        // Base64解码
+        byte[] imageByte = null;
+        try {
+            imageByte = decoder.decodeBuffer(imageFile);
+            for (int i = 0; i < imageByte.length; ++i) {
+                if (imageByte[i] < 0) {// 调整异常数据
+                    imageByte[i] += 256;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        type = "." + type;
+        return saveImg(imageByte,subdirectory,type);
+    }
+
+    //存储照片到服务器
+    private static Map<String,String> saveImg(byte[] imageByte,String subdirectory,String type){
+        // 生成文件名及文件类型
+        String files = new SimpleDateFormat("yyyyMMddHHmmssSSS")
+                .format(new Date())
+                + (new Random().nextInt(9000) % (9000 - 1000 + 1) + 1000)
+                + type;
+
+        Map<String,String> map = new HashMap<>();
+        //获取跟目录---与jar包同级目录并生成文件路径
+        String filename = FileUtil.getPath(subdirectory) + files;
+        try {
+            // 生成文件
+            File imageFile = new File(filename);
+            imageFile.createNewFile();
+            if(!imageFile.exists()){
+                imageFile.createNewFile();
+            }
+            OutputStream imageStream = new FileOutputStream(imageFile);
+            imageStream.write(imageByte);
+            imageStream.flush();
+            imageStream.close();
+            map.put("res","success");
+            map.put("url",files);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("res","error");
+            return map;
+        }
     }
 
     public static void getFile( HttpServletResponse response,String path){

@@ -38,3 +38,7 @@ logging:
   level.com.stylefeng: debug
   path: logs/
   file: guns-rest.log
+
+upload:
+  path.goodsImg: /gunsUploadFile
+  path.preview: /gunsUploadFile/preview

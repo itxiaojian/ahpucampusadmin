@@ -5,10 +5,14 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.stylefeng.guns.core.util.FileUtil;
 import com.stylefeng.guns.rest.modular.ahpucampus.dao.MessageFileMapper;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.MessageFile;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
+import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -16,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,9 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private IMessageService messageService;
+
     static final List<String> fileTypes = new ArrayList<String>();
 
     static {
@@ -42,8 +51,15 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
         fileTypes.add("png");
     }
 
+    //注入配置文件application.yml中设置的图片存放子目录名
+    @Value("${upload.path.goodsImg}")
+    private String GOODS_IMG_PATH;
+
+    @Value("${upload.path.preview}")
+    private String PREVIEW_PATH;
+
     @Override
-    public boolean fileUpload(HttpServletRequest request, MultipartFile[] files) throws FileNotFoundException {
+    public boolean fileUpload(HttpServletRequest request, MultipartFile[] files)  {
         String messageId = request.getParameter("pid");
 
         for (MultipartFile attachMentFile : files) {
@@ -53,22 +69,28 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
             String realPath = "";  //文件路径
             String previewPath = "";  //预览文件路径
 
-            String path = ResourceUtils.getURL("classpath:").getPath();
-
-            //源文件存放路径
-            String uploadUrl = new File(new File(new File(path).getParent()).getParent()).getParent() + File.separator + "gunsUploadFile";
-            //预览图片路径
-            String previewUrl = uploadUrl + File.separator + "preview";
 
 
             if (attachMentFile != null) {
                 //文件上传
-                File file = FileUtil.getFile(attachMentFile, uploadUrl, fileTypes);
-                //文件压缩形成预览图片
-                File previewFile = FileUtil.scale(file,previewUrl);
-                realPath = file.toString();
+                File file = null;
+                File previewFile = null;
+                try {
+                    file = FileUtil.uploadFile(attachMentFile, GOODS_IMG_PATH, fileTypes);
+                    //文件压缩形成预览图片
+                    previewFile = FileUtil.scale(file,PREVIEW_PATH);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    logger.error("文件上传失败异常{}",e);
+                    //回滚消息记录
+                    Message message = new Message();
+                    message.setId(Integer.parseInt(messageId));
+                    messageService.deleteById(message);
+                    return false;
+                }
+                realPath = file.getPath();
                 filename = file.getName();
-                previewPath = previewFile.toString();
+                previewPath = previewFile.getPath();
             }
 
             messageFile.setUrl(realPath);
@@ -95,8 +117,9 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
              if("original".equals(filetype)){
                 path =messageFile.getUrl();
             }
+            File img = new File(path);
 
-            if(StringUtils.isEmpty(path)){
+            if(StringUtils.isEmpty(path) || !img.exists()){
                 try {
                     path =  ResourceUtils.getURL("classpath:").getPath()
                             + File.separator + "static"+ File.separator +"404.png";
@@ -106,6 +129,8 @@ public class MessageFileServiceImpl extends ServiceImpl<MessageFileMapper, Messa
 
                 }
             }
+
+
 
             FileUtil.getFile(response,path);
         }

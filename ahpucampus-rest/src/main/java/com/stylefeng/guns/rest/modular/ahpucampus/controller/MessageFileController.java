@@ -1,10 +1,11 @@
 package com.stylefeng.guns.rest.modular.ahpucampus.controller;
 
+import com.stylefeng.guns.rest.modular.ahpucampus.model.ActionResponse;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.CodeMsg;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -32,15 +32,20 @@ public class MessageFileController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping("/upload")
-    public ResponseEntity messageFileUpload(HttpServletRequest request, @RequestParam("files") MultipartFile[] files) {
+    public ActionResponse<?> messageFileUpload(HttpServletRequest request, @RequestParam("files") MultipartFile[] files) {
+        ActionResponse response  = null;
         if(files!=null && files.length>=1) {
-            try {
-                iMessageFileService.fileUpload(request,files);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+
+            boolean success = iMessageFileService.fileUpload(request,files);
+
+            if(success){
+                response = ActionResponse.success();
+            }else{
+                response = ActionResponse.error(CodeMsg.SERVER_EXCEPTION);
             }
         }
-        return ResponseEntity.ok("请求成功!");
+        logger.info("/messagefile/upload返回{}",response.toString());
+        return response;
     }
 
     @RequestMapping(value="/getFile/{filetype}/{fileId}")
