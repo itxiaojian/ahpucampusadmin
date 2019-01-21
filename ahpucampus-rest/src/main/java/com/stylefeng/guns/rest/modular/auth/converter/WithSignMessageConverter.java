@@ -9,6 +9,8 @@ import com.stylefeng.guns.rest.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.rest.config.properties.JwtProperties;
 import com.stylefeng.guns.rest.modular.auth.security.DataSecurityAction;
 import com.stylefeng.guns.rest.modular.auth.util.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -24,6 +26,8 @@ import java.lang.reflect.Type;
  * @date 2017-08-25 15:42
  */
 public class WithSignMessageConverter extends FastJsonHttpMessageConverter {
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     JwtProperties jwtProperties;
@@ -49,15 +53,16 @@ public class WithSignMessageConverter extends FastJsonHttpMessageConverter {
 
         String object = baseTransferEntity.getObject();
         String json = dataSecurityAction.unlock(object);
+        logger.info("入参类型{}，值{}",type.getTypeName(),json);
         String encrypt = MD5Util.encrypt(object + md5KeyFromToken);
 
         if (encrypt.equals(baseTransferEntity.getSign())) {
             System.out.println("签名校验成功!");
         } else {
             System.out.println("签名校验失败,数据被改动过!");
-            if(!json.contains("openId")){
-                throw new GunsException(BizExceptionEnum.SIGN_ERROR);
-            }
+//            if(!json.contains("openId")){
+//                throw new GunsException(BizExceptionEnum.SIGN_ERROR);
+//            }
         }
 
         //校验签名后再转化成应该的对象
