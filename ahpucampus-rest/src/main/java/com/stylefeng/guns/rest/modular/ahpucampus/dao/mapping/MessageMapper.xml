@@ -27,7 +27,10 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress, province, city, district, town, createtime, real_longitude AS realLongitude, real_latitude AS realLatitude, real_province AS realProvince, real_city AS realCity, real_district AS realDistrict, real_detail_address AS realDetailAddress
+        id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress,
+        province, city, district, town, DATE_FORMAT(createtime,'%Y-%m-%d %H:%i:%S') AS createtime, real_longitude AS realLongitude,
+        real_latitude AS realLatitude,real_province AS realProvince, real_city AS realCity, real_district AS realDistrict,
+        real_detail_address AS realDetailAddress
     </sql>
 
     <insert id="insert4primarykey" parameterType="com.stylefeng.guns.rest.modular.ahpucampus.model.Message" keyProperty="id">
@@ -38,7 +41,7 @@
         district,town,createtime,real_longitude,real_latitude)
         values (#{openId,jdbcType=VARCHAR},#{messageType,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{isShow,jdbcType=VARCHAR},
         #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR},#{detailAddress,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},
-        #{city,jdbcType=VARCHAR},#{district,jdbcType=VARCHAR},#{town,jdbcType=VARCHAR},#{createtime,jdbcType=DATE},
+        #{city,jdbcType=VARCHAR},#{district,jdbcType=VARCHAR},#{town,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP},
         #{realLongitude,jdbcType=VARCHAR},#{realLatitude,jdbcType=VARCHAR})
     </insert>
 

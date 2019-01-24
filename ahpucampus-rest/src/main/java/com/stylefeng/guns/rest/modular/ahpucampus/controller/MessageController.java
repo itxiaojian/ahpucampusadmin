@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.stylefeng.guns.core.util.Bean2MapUtil;
-import com.stylefeng.guns.core.util.DateUtil;
 import com.stylefeng.guns.rest.common.persistence.model.RequestParamDto;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.ActionResponse;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
@@ -49,7 +48,7 @@ public class MessageController {
     @RequestMapping("/save")
     @ResponseBody
     public ActionResponse<?> messageSave(@RequestBody Message message) {
-        message.setCreatetime(DateUtil.parseTime(DateUtil.getTime()));
+        message.setCreatetime(new Date());
         int messageId = iMessageService.insert4primarykey(message);
 
         JSONObject responsedata = new JSONObject();

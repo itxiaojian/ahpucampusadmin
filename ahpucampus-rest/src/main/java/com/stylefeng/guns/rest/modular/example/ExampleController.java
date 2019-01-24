@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 常规控制器
@@ -34,6 +35,7 @@ public class ExampleController {
     public ResponseEntity hello(@RequestBody User user) {
         user.setVersion(userInfoEnum.USER_LOGIN_ROLE_CUSTOMER.getValue());
         user.setStatus(userInfoEnum.USER_STATUS_NORMAL.getValue());
+        user.setCreatetime(new Date());
         EntityWrapper<User> wrapper = new EntityWrapper<>();
         wrapper.eq("openId",user.getOpenId());
         if(StringUtils.isNotEmpty(user.getOpenId())){
