@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stylefeng.guns.rest.modular.ahpucampus.dao.VisitorLogsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.stylefeng.guns.rest.modular.ahpucampus.model.VisitorLogs">
+        <id column="id" property="id" />
+        <result column="logType" property="logType" />
+        <result column="messageId" property="messageId" />
+        <result column="openId" property="openId" />
+        <result column="avatar" property="avatar" />
+        <result column="nickName" property="nickName" />
+        <result column="createTime" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, logType, messageId, openId, avatar, nickName, createTime
+    </sql>
+
+</mapper>

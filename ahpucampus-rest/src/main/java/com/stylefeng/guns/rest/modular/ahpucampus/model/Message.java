@@ -30,6 +30,11 @@ public class Message extends Model<Message> {
      */
     @TableField("message_type")
     private String messageType;
+
+    /**
+     * 浏览量
+     */
+
     /**
      * 事件描述
      */

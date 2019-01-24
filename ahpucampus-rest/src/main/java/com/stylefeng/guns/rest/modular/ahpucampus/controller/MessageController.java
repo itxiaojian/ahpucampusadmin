@@ -5,13 +5,11 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.stylefeng.guns.core.util.Bean2MapUtil;
 import com.stylefeng.guns.rest.common.persistence.model.RequestParamDto;
-import com.stylefeng.guns.rest.modular.ahpucampus.model.ActionResponse;
-import com.stylefeng.guns.rest.modular.ahpucampus.model.Message;
-import com.stylefeng.guns.rest.modular.ahpucampus.model.MessageFile;
-import com.stylefeng.guns.rest.modular.ahpucampus.model.User;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.*;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageService;
 import com.stylefeng.guns.rest.modular.ahpucampus.service.IUserService;
+import com.stylefeng.guns.rest.modular.ahpucampus.service.IVisitorLogsService;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +42,9 @@ public class MessageController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IVisitorLogsService visitorLogsService;
 
     @RequestMapping("/save")
     @ResponseBody
@@ -146,8 +147,29 @@ public class MessageController {
 
         return ActionResponse.success(Bean2MapUtil.transBean2Map(message));
 
+    }
 
 
+    @RequestMapping("/saveOrGetVisitorLog")
+    @ResponseBody
+    public ActionResponse<?> saveOrGetVisitorLog(@RequestBody VisitorLogs visitorLogs){
+
+        int actionType = visitorLogs.getActionType();
+        //类型1保存浏览记录
+        if(actionType ==1){
+            visitorLogs.setCreateTime(new Date());
+            visitorLogsService.insert(visitorLogs);
+            int messageId = visitorLogs.getMessageId();
+            Wrapper<Message> messageWrapper = new EntityWrapper<>();
+            messageWrapper.eq("id",messageId);
+            Message message = iMessageService.selectOne(messageWrapper);
+//            message.
+        }
+
+
+
+
+        return ActionResponse.success();
     }
 
 
