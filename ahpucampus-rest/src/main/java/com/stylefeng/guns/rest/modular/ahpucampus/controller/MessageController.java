@@ -153,23 +153,45 @@ public class MessageController {
     @RequestMapping("/saveOrGetVisitorLog")
     @ResponseBody
     public ActionResponse<?> saveOrGetVisitorLog(@RequestBody VisitorLogs visitorLogs){
+        JSONObject responsedata = new JSONObject();
 
         int actionType = visitorLogs.getActionType();
         //类型1保存浏览记录
         if(actionType ==1){
-            visitorLogs.setCreateTime(new Date());
-            visitorLogsService.insert(visitorLogs);
-            int messageId = visitorLogs.getMessageId();
-            Wrapper<Message> messageWrapper = new EntityWrapper<>();
-            messageWrapper.eq("id",messageId);
-            Message message = iMessageService.selectOne(messageWrapper);
-//            message.
+            Wrapper<VisitorLogs> visitorLogsWrapper = new EntityWrapper<>();
+            visitorLogsWrapper.eq("openId",visitorLogs.getOpenId()).eq("messageId",visitorLogs.getMessageId());
+            if(visitorLogsService.selectCount(visitorLogsWrapper)==0){
+                visitorLogs.setLogType(1);
+                visitorLogs.setCreateTime(new Date());
+                visitorLogsService.insert(visitorLogs);
+                int messageId = visitorLogs.getMessageId();
+                Wrapper<Message> messageWrapper = new EntityWrapper<>();
+                messageWrapper.eq("id",messageId);
+                Message message = iMessageService.selectOne(messageWrapper);
+                int visitorCount = message.getVisitorCount();
+                message.setVisitorCount(++visitorCount);
+                iMessageService.update(message,messageWrapper);
+            }else{
+                VisitorLogs visitorLogshistory = visitorLogsService.selectOne(visitorLogsWrapper);
+                visitorLogshistory.setUpdateTime(new Date());
+                visitorLogsService.updateById(visitorLogshistory);
+            }
         }
 
+        //类型2查询浏览总数
+        if(actionType ==2){
+            responsedata.put("visitorCount",getVisitorCount(visitorLogs.getMessageId(),1));
+        }
+
+        return ActionResponse.success(responsedata);
+    }
 
 
+    private int getVisitorCount(int messageId,int logType){
+        Wrapper<VisitorLogs> visitorLogsWrapper = new EntityWrapper<>();
+        visitorLogsWrapper.eq("logType",logType).eq("messageId",messageId);
+        return visitorLogsService.selectCount(visitorLogsWrapper);
 
-        return ActionResponse.success();
     }
 
 

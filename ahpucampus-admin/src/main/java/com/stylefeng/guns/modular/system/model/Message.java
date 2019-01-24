@@ -33,6 +33,12 @@ public class Message extends Model<Message> {
      */
     @TableField("message_type")
     private String messageType;
+
+    /**
+     * 浏览量
+     */
+    @TableField("visitor_count")
+    private int visitorCount;
     /**
      * 事件描述
      */
@@ -105,6 +111,13 @@ public class Message extends Model<Message> {
     @TableField("real_detail_address")
     private String realDetailAddress;
 
+    public int getVisitorCount() {
+        return visitorCount;
+    }
+
+    public void setVisitorCount(int visitorCount) {
+        this.visitorCount = visitorCount;
+    }
 
     public Integer getId() {
         return id;

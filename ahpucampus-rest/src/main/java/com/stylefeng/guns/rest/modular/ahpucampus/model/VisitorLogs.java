@@ -49,8 +49,21 @@ public class VisitorLogs extends Model<VisitorLogs> {
      */
     private Date createTime;
 
+    /**
+     * 最近浏览时间
+     */
+    private Date updateTime;
+
     @TableField(exist = false)
     private int actionType;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public int getActionType() {
         return actionType;

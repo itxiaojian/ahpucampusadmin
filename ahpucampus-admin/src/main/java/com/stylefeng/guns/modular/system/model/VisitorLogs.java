@@ -49,6 +49,18 @@ public class VisitorLogs extends Model<VisitorLogs> {
      */
     private Date createTime;
 
+    /**
+     * 最近浏览时间
+     */
+    private Date updateTime;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;
