@@ -13,4 +13,6 @@ import com.stylefeng.guns.rest.modular.ahpucampus.model.MessageComment;
  */
 public interface MessageCommentMapper extends BaseMapper<MessageComment> {
 
+    int insert4primarykey(MessageComment messageComment);
+
 }

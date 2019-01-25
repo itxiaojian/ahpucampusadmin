@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.stylefeng.guns.modular.system.model.MessageComment">
         <id column="id" property="id" />
         <result column="messageId" property="messageId" />
+        <result column="commentType" property="commentType" />
+        <result column="commentId" property="commentId" />
         <result column="sendOpenId" property="sendOpenId" />
         <result column="sendAvatar" property="sendAvatar" />
         <result column="sendNickName" property="sendNickName" />
@@ -13,12 +15,13 @@
         <result column="receiveAvatar" property="receiveAvatar" />
         <result column="receiveNickName" property="receiveNickName" />
         <result column="content" property="content" />
-        <result column="time" property="time" />
+        <result column="createTime" property="createTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, messageId, sendOpenId, sendAvatar, sendNickName, receiveOpenId, receiveAvatar, receiveNickName, content, time
+        id, messageId, sendOpenId, sendAvatar, sendNickName, receiveOpenId, receiveAvatar, receiveNickName, content,
+        createTime,commentId,commentType
     </sql>
 
 </mapper>

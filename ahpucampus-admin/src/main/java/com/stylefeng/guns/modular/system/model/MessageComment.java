@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -27,6 +28,10 @@ public class MessageComment extends Model<MessageComment> {
      * 消息id
      */
     private Integer messageId;
+
+    private Integer commentType;
+
+    private Integer commentId;
     /**
      * 发起评论人openId
      */
@@ -58,8 +63,23 @@ public class MessageComment extends Model<MessageComment> {
     /**
      * 发起消息时间，以页面传来为准
      */
-    private Integer time;
+    private Date createTime;
 
+    public Integer getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(Integer commentType) {
+        this.commentType = commentType;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
 
     public Integer getId() {
         return id;
@@ -133,12 +153,12 @@ public class MessageComment extends Model<MessageComment> {
         this.content = content;
     }
 
-    public Integer getTime() {
-        return time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setTime(Integer time) {
-        this.time = time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -158,7 +178,7 @@ public class MessageComment extends Model<MessageComment> {
         ", receiveAvatar=" + receiveAvatar +
         ", receiveNickName=" + receiveNickName +
         ", content=" + content +
-        ", time=" + time +
+        ", createTime=" + createTime +
         "}";
     }
 }

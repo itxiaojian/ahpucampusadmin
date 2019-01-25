@@ -1,15 +1,13 @@
 package com.stylefeng.guns.rest.modular.ahpucampus.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.stylefeng.guns.core.util.Bean2MapUtil;
 import com.stylefeng.guns.rest.common.persistence.model.RequestParamDto;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.*;
-import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageFileService;
-import com.stylefeng.guns.rest.modular.ahpucampus.service.IMessageService;
-import com.stylefeng.guns.rest.modular.ahpucampus.service.IUserService;
-import com.stylefeng.guns.rest.modular.ahpucampus.service.IVisitorLogsService;
+import com.stylefeng.guns.rest.modular.ahpucampus.service.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +43,9 @@ public class MessageController {
 
     @Autowired
     private IVisitorLogsService visitorLogsService;
+
+    @Autowired
+    private IMessageCommentService messageCommentService;
 
     @RequestMapping("/save")
     @ResponseBody
@@ -191,6 +192,40 @@ public class MessageController {
         Wrapper<VisitorLogs> visitorLogsWrapper = new EntityWrapper<>();
         visitorLogsWrapper.eq("logType",logType).eq("messageId",messageId);
         return visitorLogsService.selectCount(visitorLogsWrapper);
+
+    }
+
+
+    @RequestMapping("/saveComment")
+    @ResponseBody
+    public ActionResponse<?> saveComment(@RequestBody MessageComment messageComment){
+        JSONObject responsedata = new JSONObject();
+        int commontType = messageComment.getCommentType();
+        if(commontType == 1){
+
+            int commentId = messageCommentService.insert4primarykey(messageComment);
+
+            responsedata.put("commentId",commentId);
+
+        }
+        if(commontType == 2){
+            //楼中楼通过层主评论id找发评论人信息作为子评论收评论人信息，暂空
+            int commentId = messageComment.getCommentId();
+        }
+
+
+        return ActionResponse.success(responsedata);
+    }
+
+    @RequestMapping("/getMessageComments")
+    @ResponseBody
+    public ActionResponse<?> getMessageComments(@RequestBody MessageComment messageComment){
+        int messageId = messageComment.getMessageId();
+        Wrapper<MessageComment> messageCommentWrapper = new EntityWrapper<>();
+        messageCommentWrapper.eq("messageId",messageId).orderBy("createTime",false);
+        List<MessageComment> messageCommentList = messageCommentService.selectList(messageCommentWrapper);
+
+        return ActionResponse.success(JSON.toJSONString(messageCommentList));
 
     }
 
