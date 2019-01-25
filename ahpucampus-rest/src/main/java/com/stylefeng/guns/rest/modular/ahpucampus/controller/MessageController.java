@@ -181,7 +181,7 @@ public class MessageController {
 
         //类型2查询浏览总数
         if(actionType ==2){
-            responsedata.put("visitorCount",getVisitorCount(visitorLogs.getMessageId(),1));
+//            responsedata.put("visitorCount",getVisitorCount(visitorLogs.getMessageId(),1));
         }
 
         return ActionResponse.success(responsedata);
@@ -204,6 +204,12 @@ public class MessageController {
         if(commontType == 1){
 
             int commentId = messageCommentService.insert4primarykey(messageComment);
+            Wrapper<Message> messageWrapper = new EntityWrapper<>();
+            messageWrapper.eq("id",messageComment.getMessageId());
+            Message message = iMessageService.selectOne(messageWrapper);
+            int commontCount = message.getCommontCount();
+            message.setCommontCount(++commontCount);
+            iMessageService.update(message,messageWrapper);
 
             responsedata.put("commentId",commentId);
 

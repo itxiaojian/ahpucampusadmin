@@ -38,6 +38,12 @@ public class Message extends Model<Message> {
     private int visitorCount;
 
     /**
+     * 评论量
+     */
+     @TableField("commont_count")
+     private int commontCount;
+
+    /**
      * 事件描述
      */
     private String content;
@@ -137,6 +143,14 @@ public class Message extends Model<Message> {
      */
     @TableField(exist = false)
     private int photo;
+
+    public int getCommontCount() {
+        return commontCount;
+    }
+
+    public void setCommontCount(int commontCount) {
+        this.commontCount = commontCount;
+    }
 
     public int getVisitorCount() {
         return visitorCount;

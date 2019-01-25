@@ -3,6 +3,7 @@ package com.stylefeng.guns.rest.modular.example;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.stylefeng.guns.core.enums.userInfoEnum;
 import com.stylefeng.guns.rest.modular.ahpucampus.dao.UserMapper;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.ActionResponse;
 import com.stylefeng.guns.rest.modular.ahpucampus.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -32,7 +34,8 @@ public class ExampleController {
     UserMapper userMapper;
 
     @RequestMapping("")
-    public ResponseEntity hello(@RequestBody User user) {
+    @ResponseBody
+    public ActionResponse<?> hello(@RequestBody User user) {
         user.setVersion(userInfoEnum.USER_LOGIN_ROLE_CUSTOMER.getValue());
         user.setStatus(userInfoEnum.USER_STATUS_NORMAL.getValue());
         user.setCreatetime(new Date());
@@ -47,6 +50,6 @@ public class ExampleController {
             }
         }
         logger.info("hello-User={}",user.toString());
-        return ResponseEntity.ok("请求成功!");
+        return ActionResponse.success();
     }
 }

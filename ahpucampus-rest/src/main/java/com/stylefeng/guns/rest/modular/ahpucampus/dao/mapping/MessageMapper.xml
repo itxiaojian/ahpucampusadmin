@@ -8,6 +8,7 @@
         <result column="openId" property="openId" />
         <result column="message_type" property="messageType" />
         <result column="visitor_count" property="visitorCount" />
+        <result column="commont_count" property="commontCount" />
         <result column="content" property="content" />
         <result column="isShow" property="isShow" />
         <result column="longitude" property="longitude" />
@@ -31,7 +32,7 @@
         id, openId, message_type AS messageType, content, isShow, longitude, latitude, detail_address AS detailAddress,
         province, city, district, town, DATE_FORMAT(createtime,'%Y-%m-%d %H:%i:%S') AS createtime, real_longitude AS realLongitude,
         real_latitude AS realLatitude,real_province AS realProvince, real_city AS realCity, real_district AS realDistrict,
-        real_detail_address AS realDetailAddress,visitor_count as visitorCount
+        real_detail_address AS realDetailAddress,visitor_count as visitorCount,commont_count as commontCount
     </sql>
 
     <insert id="insert4primarykey" parameterType="com.stylefeng.guns.rest.modular.ahpucampus.model.Message" keyProperty="id">

@@ -39,6 +39,12 @@ public class Message extends Model<Message> {
      */
     @TableField("visitor_count")
     private int visitorCount;
+
+    /**
+     * 评论量
+     */
+    @TableField("commont_count")
+    private int commontCount;
     /**
      * 事件描述
      */
@@ -110,6 +116,14 @@ public class Message extends Model<Message> {
      */
     @TableField("real_detail_address")
     private String realDetailAddress;
+
+    public int getCommontCount() {
+        return commontCount;
+    }
+
+    public void setCommontCount(int commontCount) {
+        this.commontCount = commontCount;
+    }
 
     public int getVisitorCount() {
         return visitorCount;
