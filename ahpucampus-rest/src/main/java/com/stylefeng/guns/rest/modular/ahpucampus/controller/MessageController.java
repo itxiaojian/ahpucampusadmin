@@ -222,10 +222,13 @@ public class MessageController {
     public ActionResponse<?> getMessageComments(@RequestBody MessageComment messageComment){
         int messageId = messageComment.getMessageId();
         Wrapper<MessageComment> messageCommentWrapper = new EntityWrapper<>();
-        messageCommentWrapper.eq("messageId",messageId).orderBy("createTime",false);
+        messageCommentWrapper.eq("messageId",messageId).orderBy("createTime",true);
         List<MessageComment> messageCommentList = messageCommentService.selectList(messageCommentWrapper);
 
-        return ActionResponse.success(JSON.toJSONString(messageCommentList));
+        JSONObject responsedata = new JSONObject();
+        responsedata.put("comments",messageCommentList);
+
+        return ActionResponse.success(responsedata);
 
     }
 
