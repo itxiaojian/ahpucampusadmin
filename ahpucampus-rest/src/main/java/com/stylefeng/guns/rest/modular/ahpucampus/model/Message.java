@@ -34,6 +34,8 @@ public class Message extends Model<Message> {
     /**
      * 浏览量
      */
+    @TableField("visitor_count")
+    private int visitorCount;
 
     /**
      * 事件描述
@@ -135,6 +137,14 @@ public class Message extends Model<Message> {
      */
     @TableField(exist = false)
     private int photo;
+
+    public int getVisitorCount() {
+        return visitorCount;
+    }
+
+    public void setVisitorCount(int visitorCount) {
+        this.visitorCount = visitorCount;
+    }
 
     public int getPhoto() {
         return photo;

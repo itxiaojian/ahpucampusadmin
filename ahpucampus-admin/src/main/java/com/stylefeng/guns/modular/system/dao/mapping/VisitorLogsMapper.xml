@@ -11,11 +11,12 @@
         <result column="avatar" property="avatar" />
         <result column="nickName" property="nickName" />
         <result column="createTime" property="createTime" />
+        <result column="updateTime" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, logType, messageId, openId, avatar, nickName, createTime
+        id, logType, messageId, openId, avatar, nickName, createTime,updateTime
     </sql>
 
 </mapper>
