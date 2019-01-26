@@ -71,7 +71,7 @@ public class NoticeController extends BaseController {
      */
     @RequestMapping("/hello")
     public String hello() {
-        List<Map<String, Object>> notices = noticeService.list(null);
+        List<Map<String, Object>> notices = noticeService.list(null,"1");
         super.setAttr("noticeList",notices);
         return "/blackboard.html";
     }
@@ -82,7 +82,7 @@ public class NoticeController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        List<Map<String, Object>> list = this.noticeService.list(condition);
+        List<Map<String, Object>> list = this.noticeService.list(condition,null);
         return super.warpObject(new NoticeWrapper(list));
     }
 
@@ -131,6 +131,7 @@ public class NoticeController extends BaseController {
         Notice old = this.noticeService.selectById(notice.getId());
         old.setTitle(notice.getTitle());
         old.setContent(notice.getContent());
+        old.setType(notice.getType());
         old.updateById();
         return SUCCESS_TIP;
     }

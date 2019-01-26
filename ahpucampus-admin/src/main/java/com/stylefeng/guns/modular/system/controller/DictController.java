@@ -139,4 +139,17 @@ public class DictController extends BaseController {
         return SUCCESS_TIP;
     }
 
+    /**
+     *
+     *  @desp  ：获取指定字典值
+     *  @Author： lhj
+     *  @return
+     *  @Date  :2017年12月22日下午7:04:13
+     */
+    @RequestMapping(value = "/getDictByNameList")
+    @ResponseBody
+    public Object getDictByNameList(@RequestParam String name) {
+        return dictService.getDictByNameList(name);
+    }
+
 }

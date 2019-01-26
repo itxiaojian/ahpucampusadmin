@@ -28,7 +28,7 @@ public class BlackboardController extends BaseController {
      */
     @RequestMapping("")
     public String blackboard(Model model) {
-        List<Map<String, Object>> notices = noticeService.list(null);
+        List<Map<String, Object>> notices = noticeService.list(null,"1");
         model.addAttribute("noticeList", notices);
         return "/blackboard.html";
     }

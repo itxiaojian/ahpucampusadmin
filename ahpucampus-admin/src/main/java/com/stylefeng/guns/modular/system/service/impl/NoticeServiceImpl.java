@@ -21,7 +21,7 @@ import java.util.Map;
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements INoticeService {
 
     @Override
-    public List<Map<String, Object>> list(String condition) {
-        return this.baseMapper.list(condition);
+    public List<Map<String, Object>> list(String condition,String type) {
+        return this.baseMapper.list(condition,type);
     }
 }

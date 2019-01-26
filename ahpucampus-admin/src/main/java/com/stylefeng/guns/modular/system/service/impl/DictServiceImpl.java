@@ -87,4 +87,17 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements ID
     public List<Map<String, Object>> list(String conditiion) {
         return this.baseMapper.list(conditiion);
     }
+
+    @Override
+    public Object getDictByNameList(String name){
+        Dict dict = new Dict();
+        dict.setName(name);
+        Dict dictresult = dictMapper.selectOne(dict);
+        if(dictresult != null){
+            Wrapper<Dict> dataWrapper = new EntityWrapper<>();
+            dataWrapper = dataWrapper.eq("pid", dictresult.getId());
+            return dictMapper.selectList(dataWrapper);
+        }
+        return null;
+    }
 }

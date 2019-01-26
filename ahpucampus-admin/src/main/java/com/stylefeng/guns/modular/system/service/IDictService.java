@@ -40,4 +40,7 @@ public interface IDictService extends IService<Dict> {
      */
     List<Map<String, Object>> list(@Param("condition") String conditiion);
 
+
+    Object getDictByNameList(String name);
+
 }

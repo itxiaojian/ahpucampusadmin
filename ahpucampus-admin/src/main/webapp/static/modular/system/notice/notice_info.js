@@ -11,6 +11,13 @@ var NoticeInfoDlg = {
                     message: '标题不能为空'
                 }
             }
+        },
+        type: {
+            validators: {
+                notEmpty: {
+                    message: '类型不能为空'
+                }
+            }
         }
     }
 };
@@ -55,7 +62,7 @@ NoticeInfoDlg.close = function () {
  */
 NoticeInfoDlg.collectData = function () {
     this.noticeInfoData['content'] = NoticeInfoDlg.editor.txt.html();
-    this.set('id').set('title');
+    this.set('id').set('title').set('type');
 }
 
 /**
@@ -66,6 +73,23 @@ NoticeInfoDlg.validate = function () {
     $('#noticeInfoForm').bootstrapValidator('validate');
     return $("#noticeInfoForm").data('bootstrapValidator').isValid();
 };
+
+/**
+ * 选择几种小程序类型后给与提示
+ */
+$('#type').on('change', function() {
+    var type = $("#type").val();
+    var tips = "无具体格式要求";
+    if(type == '3'){
+         tips = "#data#<Br/>#weibo#@安徽工程大学微校园#node#<Br/>#QQ#2295734808#node#<Br/>#wechat#ahpucampus1#node#<Br/>" +
+             "#E-mail#225734808@qq.com#node#<Br/>#content#第一段内容#node#<Br/>#content#第二段内容依次类推#node#<Br/>#data#";
+    };
+    if(type == '4'){
+        tips = "#data#<Br/>#version#v0.0.1公测版#node#<Br/>#time#2019.01.06#node#<Br/>" +
+            "#content#更新点1<Br/>#items#<Br/>#item#具体功能点1#sonnode#<Br/>#item#具体功能点2#sonnode#<Br/>#items##node#<Br/>#data#";
+    };
+    $("#tips").html(tips);
+});
 
 /**
  * 提交添加
@@ -117,6 +141,8 @@ NoticeInfoDlg.editSubmit = function () {
 
 $(function () {
     Feng.initValidator("noticeInfoForm", NoticeInfoDlg.validateFields);
+
+    getDictByNameList('通知类型','type');
 
     //初始化编辑器
     var E = window.wangEditor;

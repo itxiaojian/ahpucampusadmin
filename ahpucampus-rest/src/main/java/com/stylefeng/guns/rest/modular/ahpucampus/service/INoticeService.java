@@ -1,9 +1,8 @@
-package com.stylefeng.guns.modular.system.service;
+package com.stylefeng.guns.rest.modular.ahpucampus.service;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.stylefeng.guns.modular.system.model.Notice;
+import com.stylefeng.guns.rest.modular.ahpucampus.model.Notice;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,7 +16,8 @@ import java.util.Map;
 public interface INoticeService extends IService<Notice> {
 
     /**
-     * 获取通知列表
+     * 获取关于菜单信息
      */
-    List<Map<String, Object>> list(String condition,String type);
+
+    Map<String,Object> getAboutInfo();
 }

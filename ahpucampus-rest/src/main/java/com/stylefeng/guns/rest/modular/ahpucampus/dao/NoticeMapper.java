@@ -1,7 +1,8 @@
-package com.stylefeng.guns.modular.system.dao;
+package com.stylefeng.guns.rest.modular.ahpucampus.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.stylefeng.guns.modular.system.model.Notice;
+
+import com.stylefeng.guns.rest.modular.ahpucampus.model.Notice;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,6 +21,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
     /**
      * 获取通知列表
      */
-    List<Map<String, Object>> list(@Param("condition") String condition,@Param("type") String type);
+    List<Map<String, Object>> list(@Param("condition") String condition, @Param("type") String type);
 
 }
