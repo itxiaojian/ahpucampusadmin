@@ -16,12 +16,41 @@ Notice.initColumn = function () {
         {field: 'selectItem', radio: true},
         {title: 'id', field: 'id', visible: false, align: 'center', valign: 'middle'},
         {title: '标题', field: 'title', align: 'center', valign: 'middle', sortable: true},
-        {title: '类型', field: 'type', align: 'center', valign: 'middle', sortable: true},
-        {title: '内容', field: 'content', align: 'center', valign: 'middle', sortable: true},
+        {title: '类型', field: 'type', align: 'center', valign: 'middle',
+                formatter: function (value, row, index) {
+                    return changeStatus(value)
+        }},
+        {title: '内容', field: 'content', align: 'center', valign: 'middle',
+            formatter: function (value, row, index) {
+                return showContent(value,row.id);
+            }},
         {title: '发布者', field: 'createrName', align: 'center', valign: 'middle', sortable: true},
         {title: '创建时间', field: 'createtime', align: 'center', valign: 'middle', sortable: true}
     ];
 };
+
+function changeStatus(value) {
+    if (value != null) {
+        if(value=='1'){
+            return "后台首页";
+        }
+        if(value=='2'){
+            return "小程序首页";
+        }
+        if(value=='3'){
+            return "小程序介绍";
+        }
+        if(value=='4'){
+            return "小程序版本迭代";
+        }
+    }
+}
+
+function showContent(value,id){
+    var text = value.substr(0,10)+"...";
+
+    return '<a href="javascript:void(0)" onclick="Notice.openNoticeDetail(\''+id+'\');" title="点击查看修改">'+text+'</a>';
+}
 
 /**
  * 检查是否选中
@@ -55,18 +84,22 @@ Notice.openAddNotice = function () {
 /**
  * 打开查看通知详情
  */
-Notice.openNoticeDetail = function () {
-    if (this.check()) {
-        var index = layer.open({
-            type: 2,
-            title: '通知详情',
-            area: ['800px', '420px'], //宽高
-            fix: false, //不固定
-            maxmin: true,
-            content: Feng.ctxPath + '/notice/notice_update/' + Notice.seItem.id
-        });
-        this.layerIndex = index;
+Notice.openNoticeDetail = function (id) {
+    if(!id){
+        if (this.check()) {
+            id = Notice.seItem.id
+        }
     }
+
+    var index = layer.open({
+        type: 2,
+        title: '通知详情',
+        area: ['800px', '420px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/notice/notice_update/' + id
+    });
+    this.layerIndex = index;
 };
 
 /**

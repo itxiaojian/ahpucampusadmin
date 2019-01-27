@@ -139,6 +139,24 @@ function getDictByNameList(name,key) {
     });
 };
 
+//html转义
+function HTMLEncode(html) {
+    var temp = document.createElement("div");
+    (temp.textContent != null) ? (temp.textContent = html) : (temp.innerText = html);
+    var output = temp.innerHTML;
+    temp = null;
+    return output;
+};
+
+//转义后的string转成html
+function HTMLDecode(text) {
+    var temp = document.createElement("div");
+    temp.innerHTML = text;
+    var output = temp.innerText || temp.textContent;
+    temp = null;
+    return output;
+}
+
 //加法
 function accAdd(arg1,arg2){
 
