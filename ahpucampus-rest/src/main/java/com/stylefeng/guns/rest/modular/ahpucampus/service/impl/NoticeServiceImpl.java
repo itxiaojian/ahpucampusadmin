@@ -137,21 +137,30 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
                                     content.put(key,value);
 
 
-                                    //拼接item
-                                    String items = node.substring(node.indexOf("#items#")+"#items#".length(),node.lastIndexOf("#items#"));
-                                    if(StringUtils.isNotEmpty(items)){
-                                        String[] sonNodeArray = items.split("#sonnode#");
-                                        if(sonNodeArray.length>0){
-                                            List<Map<String,Object>> itemsList = new ArrayList<>();
-                                            for (String sonnode:sonNodeArray) {
-                                                if(sonnode.contains("#")){
-                                                    Map<String,Object> itemMap = new HashMap<>();
-                                                    itemMap.put(sonnode.split("#")[1],sonnode.split("#")[2]);
-                                                    itemsList.add(itemMap);
-                                                }
+                                    if(node.contains("#items#")){
+                                        //拼接item
+                                        String items = node.substring(node.indexOf("#items#")+"#items#".length(),node.lastIndexOf("#items#"));
+                                        if(StringUtils.isNotEmpty(items)){
+                                            if(items.contains("#sonnode#")){
+                                                String[] sonNodeArray = items.split("#sonnode#");
+                                                if(sonNodeArray.length>0){
+                                                    List<Map<String,Object>> itemsList = new ArrayList<>();
+                                                    for (String sonnode:sonNodeArray) {
+                                                        if(sonnode.contains("#")){
+                                                            Map<String,Object> itemMap = new HashMap<>();
+                                                            String sonkey = sonnode.split("#")[1];
+                                                            String sonvalue = sonnode.split("#")[2];
+                                                            if(StringUtils.isNotEmpty(sonvalue)){
+                                                                itemMap.put(sonkey,sonvalue);
+                                                                itemsList.add(itemMap);
+                                                            }
+                                                        }
 
+                                                    }
+                                                    content.put("items",itemsList);
+
+                                                }
                                             }
-                                            content.put("items",itemsList);
 
                                         }
 
