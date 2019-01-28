@@ -79,8 +79,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
     private Map<String,Object> resolveIntroduceContent(String introduceContent){
         Map<String,Object> introduceMap = new HashMap<>();
-        introduceContent = introduceContent.replace(" ","").replace("<br>","")
-                .replace("<p>","").replace("</p>","");
+        introduceContent = introduceContent.replace(" ","").replace("<br>","").replace("<p>","")
+                .replace("</p>","").replace("<spanstyle=\"color:inherit;\">","").replace("</span>","");
         if(StringUtils.isNotEmpty(introduceContent)){
             String data = introduceContent.substring(introduceContent.indexOf("#data#")+"#data#".length(),introduceContent.lastIndexOf("#data#"));
             if(StringUtils.isNotEmpty(data)){
@@ -120,8 +120,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         List<Map<String,Object>> updateLog = new ArrayList<>();
         for (Notice updateLogNotice:updateLogList) {
             Map<String,Object> updateLogMap = new HashMap<>();
-            String updateLogContent = updateLogNotice.getContent().replace(" ","")
-                    .replace("<br>","").replace("<p>","").replace("</p>","");
+            String updateLogContent = updateLogNotice.getContent().replace(" ","").replace("<br>","").replace("<p>","")
+                    .replace("</p>","").replace("<spanstyle=\"color:inherit;\">","").replace("</span>","");
             if(StringUtils.isNotEmpty(updateLogContent)){
                 String data = updateLogContent.substring(updateLogContent.indexOf("#data#")+"#data#".length(),updateLogContent.lastIndexOf("#data#"));
                 if(StringUtils.isNotEmpty(data)){
