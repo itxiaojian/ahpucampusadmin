@@ -19,6 +19,8 @@ public class ShiroUser implements Serializable {
     public Integer deptId;      // 部门id
     public List<Integer> roleList; // 角色集
     public String deptName;        // 部门名称
+    public String wieboUid;        //weiboUid
+    public String openId;        //openId
     public List<String> roleNames; // 角色名称集
 
 

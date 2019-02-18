@@ -3,6 +3,7 @@ package com.stylefeng.guns.core.aop;
 import com.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.core.common.exception.InvalidKaptchaException;
 import com.stylefeng.guns.core.base.tips.ErrorTip;
+import com.stylefeng.guns.core.common.exception.WeiboBingdingException;
 import com.stylefeng.guns.core.exception.GunsException;
 import com.stylefeng.guns.core.log.LogManager;
 import com.stylefeng.guns.core.log.factory.LogTaskFactory;
@@ -93,6 +94,18 @@ public class GlobalExceptionHandler {
         String username = getRequest().getParameter("username");
         LogManager.me().executeLog(LogTaskFactory.loginLog(username, "验证码错误", getIp()));
         model.addAttribute("tips", "验证码错误");
+        return "/login.html";
+    }
+
+    /**
+     * 微博绑定被篡改异常
+     */
+    @ExceptionHandler(WeiboBingdingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String credentials(WeiboBingdingException e, Model model) {
+        String username = getRequest().getParameter("username");
+        LogManager.me().executeLog(LogTaskFactory.loginLog(username, "微博绑定异常", getIp()));
+        model.addAttribute("tips", "微博绑定异常，请重试");
         return "/login.html";
     }
 

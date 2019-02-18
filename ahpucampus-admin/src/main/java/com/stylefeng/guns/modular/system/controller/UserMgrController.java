@@ -72,6 +72,11 @@ public class UserMgrController extends BaseController {
         return PREFIX + "user_add.html";
     }
 
+    @RequestMapping("/weibo_user_add")
+    public String weiboAddView() {
+        return PREFIX + "weibo_user_add.html";
+    }
+
     /**
      * 跳转到角色分配页面
      */

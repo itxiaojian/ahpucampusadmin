@@ -44,6 +44,7 @@
 								<div class="hidden-xs" id="managerTableToolbar" role="group">
 									@if(shiro.hasPermission("/mgr/add")){
 									<#button name="添加" icon="fa-plus" clickFun="MgrUser.openAddMgr()"/>
+									<#button name="微博邀请" icon="fa-plus" clickFun="MgrUser.openWeiboAddMgr()"/>
 									@}
 									@if(shiro.hasPermission("/mgr/edit")){
 									<#button name="修改" icon="fa-edit" clickFun="MgrUser.openChangeUser()" space="true"/>

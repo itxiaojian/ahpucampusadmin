@@ -58,6 +58,21 @@ MgrUser.openAddMgr = function () {
 };
 
 /**
+ * 微博邀请一键生成账号
+ */
+MgrUser.openWeiboAddMgr = function () {
+    var index = layer.open({
+        type: 2,
+        title: '微博邀请',
+        area: ['800px', '560px'], //宽高
+        fix: false, //不固定
+        maxmin: true,
+        content: Feng.ctxPath + '/mgr/weibo_user_add'
+    });
+    this.layerIndex = index;
+};
+
+/**
  * 点击修改按钮时
  * @param userId 管理员id
  */

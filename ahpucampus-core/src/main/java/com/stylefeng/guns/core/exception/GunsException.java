@@ -17,6 +17,11 @@ public class GunsException extends RuntimeException {
         this.message = serviceExceptionEnum.getMessage();
     }
 
+    public GunsException(String message) {
+        this.code = 500;
+        this.message = message;
+    }
+
     public Integer getCode() {
         return code;
     }

@@ -19,6 +19,7 @@
 package com.stylefeng.guns.core.intercept;
 
 import com.stylefeng.guns.core.shiro.ShiroKit;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -70,6 +71,8 @@ public class GunsUserFilter extends AccessControlFilter {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
         HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
 
+        String coyoteRequest = httpServletRequest.getServletPath();
+
         /**
          * 如果是ajax请求则不进行跳转
          */
@@ -82,6 +85,14 @@ public class GunsUserFilter extends AccessControlFilter {
             /**
              * 第一次点击页面
              */
+            if(coyoteRequest.startsWith("/weibo")){
+                String code = httpServletRequest.getParameter("code");
+                if(StringUtils.isEmpty(code)){
+                    return false;
+                }
+                return true;
+            }
+
             String referer = httpServletRequest.getHeader("Referer");
             if (referer == null) {
                 saveRequestAndRedirectToLogin(request, response);

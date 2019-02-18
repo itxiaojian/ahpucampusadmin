@@ -19,6 +19,7 @@ public enum GunsExceptionEnum implements ServiceExceptionEnum{
 	FILE_READING_ERROR(400,"FILE_READING_ERROR!"),
 	FILE_NOT_FOUND(400,"FILE_NOT_FOUND!"),
 	FILE_TYPE_ERROR(400,"FILE_TYPE_ERROR!"),
+	WEIBOLOGIN_CODE_EMPTY(400,"WEIBOLOGIN_CODE_EMPTY!"),
 
 	/**
 	 * 错误的请求

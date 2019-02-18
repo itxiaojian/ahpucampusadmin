@@ -83,6 +83,19 @@ public class User extends Model<User> {
      */
 	private Integer version;
 
+	/**
+	 * weiboUid
+	 * @return
+	 */
+	private String weiboUid;
+
+	public String getWeiboUid() {
+		return weiboUid;
+	}
+
+	public void setWeiboUid(String weiboUid) {
+		this.weiboUid = weiboUid;
+	}
 
 	public Integer getId() {
 		return id;
