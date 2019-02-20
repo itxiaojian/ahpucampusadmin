@@ -37,7 +37,7 @@ public class AuthFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String url = request.getServletPath();
         if (url.equals("/" + jwtProperties.getAuthPath())
-        ||url.startsWith("/messagefile/getFile")) {
+        ||url.startsWith("/messagefile/getFile")||(url.equals("/WeiboCallbackServlet/doService"))) {
             chain.doFilter(request, response);
             return;
         }

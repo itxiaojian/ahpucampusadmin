@@ -374,7 +374,9 @@ public class HttpClient implements java.io.Serializable {
 			Header[] resHeader = method.getResponseHeaders();
 			responseCode = method.getStatusCode();
 			log("Response:");
+			log.info("Response:");
 			log("https StatusCode:" + String.valueOf(responseCode));
+			log.info("https StatusCode:" + String.valueOf(responseCode));
 
 			for (Header header : resHeader) {
 				log(header.getName() + ":" + header.getValue());

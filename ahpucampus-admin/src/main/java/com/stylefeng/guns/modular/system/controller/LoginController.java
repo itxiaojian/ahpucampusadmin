@@ -17,8 +17,10 @@ import com.stylefeng.guns.core.util.KaptchaUtil;
 import com.stylefeng.guns.core.util.MD5Util;
 import com.stylefeng.guns.core.util.ToolUtil;
 import com.stylefeng.guns.core.weibo4j.Oauth;
+import com.stylefeng.guns.core.weibo4j.Share;
 import com.stylefeng.guns.core.weibo4j.http.AccessToken;
 import com.stylefeng.guns.core.weibo4j.model.WeiboException;
+import com.stylefeng.guns.core.weibo4j.org.json.JSONObject;
 import com.stylefeng.guns.modular.system.model.User;
 import com.stylefeng.guns.modular.system.service.IMenuService;
 import com.stylefeng.guns.modular.system.service.INoticeService;
@@ -34,10 +36,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import sun.security.provider.MD5;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.stylefeng.guns.core.support.HttpKit.getIp;
 
@@ -95,19 +95,19 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/weibo/login", method = RequestMethod.GET)
     public String login(Model model,String code) {
-        System.out.println("dayin yixia jinlai l ");
+        logger.info("dayin yixia jinlai l ");
         String tips = "系统异常，请稍后重试";
         String weiboUid = "";
         try{
             if (StringUtils.isEmpty(code)) {
-                System.out.println("StringUtils.isEmpty(code)");
+                logger.info("StringUtils.isEmpty(code)");
                 tips = "code为空，重新登陆";
             } else {
                 Subject currentUser = SecurityUtils.getSubject();
                 if (currentUser.isAuthenticated() || currentUser.isRemembered()) {
                     //已登录
-                    System.out.println("已登录");
-                    return REDIRECT + "/";
+                    logger.info("已登录");
+                    tips =  "success";
                 } else {
                     Oauth oauth = new Oauth();
                     AccessToken accessToken = oauth.getAccessTokenByCode(code);
@@ -126,12 +126,19 @@ public class LoginController extends BaseController {
                         LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), getIp()));
 
                         ShiroKit.getSession().setAttribute("sessionFlag", true);
-                        System.out.println("/已绑定后台账号");
+                        logger.info("/已绑定后台账号");
                         tips = "success";
+                        String accesstoken = accessToken.getAccessToken();
+
+                        logger.info("开始进入发微博啦");
+                        Share share = new Share(accesstoken);
+
+                        JSONObject jsonObject = share.Share("我登陆成功啦,查看。http://www.weibo.com",null,null);
+                        logger.info("发微博返回{}",jsonObject);
 
                     } else {
                         //未绑定后台账号
-                        System.out.println("/未绑定后台账号");
+                        logger.info("/未绑定后台账号");
                         tips = "binding";
                     }
 
@@ -258,7 +265,7 @@ public class LoginController extends BaseController {
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser.isAuthenticated() || currentUser.isRemembered()) {
             //已登录
-            System.out.println("已登录");
+            logger.info("已登录");
         } else {
 
             Subject currentUser_ = ShiroKit.getSubject();
