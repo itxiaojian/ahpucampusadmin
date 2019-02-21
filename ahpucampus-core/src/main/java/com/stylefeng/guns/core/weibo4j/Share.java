@@ -32,7 +32,7 @@ public class Share extends Weibo {
 		return client
 				.post(WeiboConfig.baseURL	+ "statuses/share.json",
 						new PostParameter[] {
-								new PostParameter("status", URLEncoder.encode(status, "utf-8")),
+								new PostParameter("status", status),
 //								new PostParameter("pic", pic),
 								new PostParameter("rip", "132.232.224.83"),
 						}, access_token).asJSONObject();

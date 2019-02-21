@@ -130,10 +130,10 @@ public class LoginController extends BaseController {
                         tips = "success";
                         String accesstoken = accessToken.getAccessToken();
 
-                        logger.info("开始进入发微博啦");
+                        logger.info("开始进入发微博啦accesstoken{}",accesstoken);
                         Share share = new Share(accesstoken);
 
-                        JSONObject jsonObject = share.Share("我登陆成功啦,查看。http://www.weibo.com",null,null);
+                        JSONObject jsonObject = share.Share("我登陆成功啦,查看。http://www.ahpucampus.com/test.html",null,null);
                         logger.info("发微博返回{}",jsonObject);
 
                     } else {
