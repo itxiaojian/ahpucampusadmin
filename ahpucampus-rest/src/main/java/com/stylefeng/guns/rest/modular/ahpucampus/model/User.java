@@ -93,7 +93,25 @@ public class User extends Model<User> {
 	private String country;
 	private String avatarUrl;
 	private String openId;
+	/**
+	 * weiboUid
+	 * @return
+	 */
+	private String weiboUid;
 
+	/**
+	 * weiboAccessToken
+	 * @return
+	 */
+	private String weiboAccessToken;
+
+	public String getWeiboAccessToken() {
+		return weiboAccessToken;
+	}
+
+	public void setWeiboAccessToken(String weiboAccessToken) {
+		this.weiboAccessToken = weiboAccessToken;
+	}
 
 	public Integer getId() {
 		return id;

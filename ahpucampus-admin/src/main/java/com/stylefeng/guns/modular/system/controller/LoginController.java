@@ -98,6 +98,7 @@ public class LoginController extends BaseController {
         logger.info("dayin yixia jinlai l ");
         String tips = "系统异常，请稍后重试";
         String weiboUid = "";
+        String accesstoken = "";
         try{
             if (StringUtils.isEmpty(code)) {
                 logger.info("StringUtils.isEmpty(code)");
@@ -113,6 +114,7 @@ public class LoginController extends BaseController {
                     AccessToken accessToken = oauth.getAccessTokenByCode(code);
                     Wrapper<User> userWrapper = new EntityWrapper<>();
                     weiboUid = accessToken.getUid();
+                    accesstoken = accessToken.getAccessToken();
                     userWrapper.eq("weiboUid",weiboUid);
                     User user = userService.selectOne(userWrapper);
                     if (user != null && !StringUtils.isEmpty(user.getPassword())) {
@@ -128,13 +130,16 @@ public class LoginController extends BaseController {
                         ShiroKit.getSession().setAttribute("sessionFlag", true);
                         logger.info("/已绑定后台账号");
                         tips = "success";
-                        String accesstoken = accessToken.getAccessToken();
 
-                        logger.info("开始进入发微博啦accesstoken{}",accesstoken);
+                        //每次使用微博登陆更新weiboaccesstoken
+                        user.setWeiboAccessToken(accesstoken);
+                        userService.update(user,userWrapper);
+
+                        /*logger.info("开始进入发微博啦accesstoken{}",accesstoken);
                         Share share = new Share(accesstoken);
 
                         JSONObject jsonObject = share.Share("我登陆成功啦,查看。http://www.ahpucampus.com/test.html",null,null);
-                        logger.info("发微博返回{}",jsonObject);
+                        logger.info("发微博返回{}",jsonObject);*/
 
                     } else {
                         //未绑定后台账号
@@ -174,6 +179,8 @@ public class LoginController extends BaseController {
             }else if("binding".equals(tips)){
                 model.addAttribute("weiboUid", weiboUid);
                 model.addAttribute("weiboCode", code);
+                model.addAttribute("accesstoken", accesstoken);
+                model.addAttribute("accessTokenCode", MD5Util.encrypt(accesstoken));
                 model.addAttribute("bindingCode", MD5Util.encrypt(weiboUid));
                 return "/binding.html";
             }else{
@@ -207,12 +214,23 @@ public class LoginController extends BaseController {
         String remember = super.getPara("remember");
         String weiboUid = super.getPara("weiboUid");
         String bindingCode = super.getPara("bindingCode");
+        String accessTokenCode = super.getPara("accessTokenCode");
+        String accesstoken = super.getPara("accesstoken");
 
         //绑定微博校验uid是否被篡改
         if(StringUtils.isNotEmpty(weiboUid)&&StringUtils.isNotEmpty(bindingCode)){
             weiboUid = weiboUid.trim();
             bindingCode = bindingCode.trim();
             if(!bindingCode.equals(MD5Util.encrypt(weiboUid))){
+                throw new WeiboBingdingException();
+            }
+        }
+
+        //绑定微博校验accesstoken是否被篡改
+        if(StringUtils.isNotEmpty(accesstoken)&&StringUtils.isNotEmpty(accessTokenCode)){
+            accesstoken = accesstoken.trim();
+            accessTokenCode = accessTokenCode.trim();
+            if(!accessTokenCode.equals(MD5Util.encrypt(accesstoken))){
                 throw new WeiboBingdingException();
             }
         }
@@ -237,12 +255,13 @@ public class LoginController extends BaseController {
 
         currentUser.login(token);
 
-        //更新weibouid进用户表
+        //第一次绑定更新weibouid，accessToken进用户表
         if(StringUtils.isNotEmpty(weiboUid)&&StringUtils.isNotEmpty(bindingCode)){
             Wrapper<User> userWrapper = new EntityWrapper<>();
             userWrapper.eq("account",username);
             User user = userService.selectOne(userWrapper);
             user.setWeiboUid(weiboUid);
+            user.setWeiboAccessToken(accesstoken);
             userService.update(user,userWrapper);
         }
 

@@ -20,20 +20,21 @@
 		<result column="createtime" property="createtime" />
 		<result column="version" property="version" />
 		<result column="weiboUid" property="weiboUid" />
+		<result column="weiboAccessToken" property="weiboAccessToken" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
 		id, account, name, birthday, sex, email, avatar,
 		phone, roleid,
 		deptid, status,
-		createtime, version,weiboUid
+		createtime, version,weiboUid,weiboAccessToken
 	</sql>
 
 	<sql id="Base_Column_List_With_Pwd">
 		id, account, name, birthday,password, sex, email, avatar,
 		phone, roleid,salt,
 		deptid, status,
-		createtime, version,weiboUid
+		createtime, version,weiboUid,weiboAccessToken
 	</sql>
 
 	<select id="selectUsers" resultType="map">
